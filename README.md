@@ -15,5 +15,5 @@ Ensure you have installed:
 
 **Installation:**
 
-1. Download the plugin from the [Releases page](https://github.com/your-username/Community.PowerToys.Run.Plugin.1PasswordPlugin/releases).
+1. Download the plugin from the [Releases page](https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/releases).
 2. Extract the ZIP file to `%LOCALAPPDATA%\Microsoft\PowerToys\RunPlugins`.
