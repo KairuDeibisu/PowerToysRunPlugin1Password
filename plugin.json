@@ -1,0 +1,15 @@
+{
+  "ID": "9576F2CB78674305838C65FD2BE224AC",
+  "ActionKeyword": "op",
+  "Disabled": false,
+  "IsGlobal": false,
+  "Name": "1Password",
+  "Author": "Kyle Davis",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin._1Password.dll",
+  "IcoPathDark": "Images\\_1PasswordPlugin.dark.png",
+  "IcoPathLight": "Images\\_1PasswordPlugin.light.png",
+  "DynamicLoading": true
+}
