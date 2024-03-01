@@ -1,23 +1,19 @@
-# Community PowerToys Run Plugin for 1Password
+This repository contains the Community PowerToys Run Plugin for 1Password, enabling quick access to 1Password entries via the PowerToys Run launcher.
 
-This repository hosts the Community PowerToys Run Plugin for 1Password,
-a powerful extension for the PowerToys Run launcher that integrates 1Password vaults directly into your search workflow, 
-allowing you to quickly find and use your 1Password entries.
+**Features:**
 
-## Features
+- **Vault Integration**: Search and access 1Password vault entries.
+- **Copy to Clipboard**: Copy usernames and passwords easily.
+- **Customizable Settings**: Set up 1Password path and default vault in PowerToys settings.
 
-- **Vault Integration**: Seamlessly search and retrieve entries from your 1Password vaults.
-- **Copy to Clipboard**: Easily copy usernames and passwords to the clipboard for quick pasting.
-- **Customizable Settings**: Configure your 1Password installation path and initial vault directly from the PowerToys settings.
+**Prerequisites:**
 
-## Prerequisites
+Ensure you have installed:
+- PowerToys v0.78 or higher.
+- 1Password for Windows v8.## or higher.
+- 1Password CLI v2.## or higher, configured and in your system's PATH.
 
-Before you begin, ensure you have the following installed:
-- [PowerToys](https://github.com/microsoft/PowerToys) v0.78 or higher.
-- [1Password for Windows](https://1password.com/downloads/windows/) v8.## or higher.
-- [1Password CLI](https://1password.com/downloads/command-line/) v2.## or higher. Ensure it's correctly configured and accessible from your system's PATH.
+**Installation:**
 
-## Installation
-
-1. **Download the Plugin**: Download the latest release of the 1Password Plugin from the [Releases](https://github.com/your-username/Community.PowerToys.Run.Plugin.1PasswordPlugin/releases) page.
-2. **Install the Plugin**: Extract the zip file's contents to your PowerToys modules directory `(usually %LOCALAPPDATA%\Microsoft\PowerToys\RunPlugins)`.
+1. Download the plugin from the [Releases page](https://github.com/your-username/Community.PowerToys.Run.Plugin.1PasswordPlugin/releases).
+2. Extract the ZIP file to `%LOCALAPPDATA%\Microsoft\PowerToys\RunPlugins`.
