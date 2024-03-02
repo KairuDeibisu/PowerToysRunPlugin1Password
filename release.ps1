@@ -39,7 +39,13 @@ foreach ($arch in $archs) {
     Remove-Item $outputDir -Recurse -Force -ErrorAction Ignore
     New-Item -ItemType Directory -Path $outputDir -Force
 
-    Copy-Item "$releasePath/$assembly.dll", "$releasePath/plugin.json", "$releasePath/Images", "$releasePath/$assembly.deps.json" $outputDir -Recurse -Force
+    Copy-Item "$releasePath/$assembly.dll", `
+               "$releasePath/plugin.json", `
+               "$releasePath/Images", `
+               "$releasePath/$assembly.deps.json", `
+               "$releasePath/OnePassword.NET.dll", `
+               "$releasePath/Otp.NET.dll" `
+               -Destination $outputDir -Recurse -Force
     Compress-Archive "$outputDir/*" "./out/$name-$version-$arch.zip" -Force
 }
 

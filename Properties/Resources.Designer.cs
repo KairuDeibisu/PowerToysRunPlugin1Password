@@ -70,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name of Vault To Exlude.
+        ///   Looks up a localized string similar to Exclude Vault.
         /// </summary>
         internal static string one_password_exlude_vault {
             get {
@@ -79,7 +79,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name of Vault To Keep Preloaded.
+        ///   Looks up a localized string similar to Preload Vault.
         /// </summary>
         internal static string one_password_init_vault {
             get {
@@ -97,7 +97,16 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kyle Davis.
+        ///   Looks up a localized string similar to Preload Favorites.
+        /// </summary>
+        internal static string one_password_preload_favorite {
+            get {
+                return ResourceManager.GetString("one_password_preload_favorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KairuDeibisu.
         /// </summary>
         internal static string plugin_author {
             get {
@@ -106,7 +115,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1PasswordPlugin plugin.
+        ///   Looks up a localized string similar to Search 1Password for usernames and passwords.
         /// </summary>
         internal static string plugin_description {
             get {
@@ -115,7 +124,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1PasswordPlugin.
+        ///   Looks up a localized string similar to 1Password.
         /// </summary>
         internal static string plugin_name {
             get {
@@ -124,7 +133,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1PasswordPlugin settings.
+        ///   Looks up a localized string similar to 1Password Settings.
         /// </summary>
         internal static string plugin_setting {
             get {

@@ -21,6 +21,8 @@ public partial class Main : ISettingProvider
 
     public string? OnePasswordExcludeVault { get; set; }
 
+    public bool OnePasswordPreloadFavorite { get; set; }
+
 
 
     public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
@@ -43,6 +45,12 @@ public partial class Main : ISettingProvider
             DisplayLabel = Properties.Resources.one_password_exlude_vault,
             PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
         },
+        new PluginAdditionalOption
+        {
+            Key = nameof(OnePasswordPreloadFavorite),
+            DisplayLabel = Properties.Resources.one_password_preload_favorite,
+            PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
+        },
     };
 
     public void UpdateSettings(PowerLauncherPluginSettings settings)
@@ -50,6 +58,7 @@ public partial class Main : ISettingProvider
         OnePasswordInstallPath = (string)GetSettingOrDefault(settings, nameof(OnePasswordInstallPath));
         OnePasswordInitVault = (string)GetSettingOrDefault(settings, nameof(OnePasswordInitVault));
         OnePasswordExcludeVault = (string)GetSettingOrDefault(settings, nameof(OnePasswordExcludeVault));
+        OnePasswordPreloadFavorite = (bool)GetSettingOrDefault(settings, nameof(OnePasswordPreloadFavorite));
     }
 
     private object GetSettingOrDefault(PowerLauncherPluginSettings settings, string key)
@@ -62,6 +71,8 @@ public partial class Main : ISettingProvider
         {
             case PluginAdditionalOption.AdditionalOptionType.Textbox:
                 return option?.TextValue ?? defaultOption.TextValue;
+            case PluginAdditionalOption.AdditionalOptionType.Checkbox:
+                return option?.Value ?? defaultOption.Value;
         }
 
         throw new NotSupportedException();

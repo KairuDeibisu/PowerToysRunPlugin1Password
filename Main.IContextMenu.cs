@@ -2,11 +2,13 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using OtpNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Input;
 using Wox.Plugin;
 
@@ -46,7 +48,7 @@ public partial class Main : IContextMenu
                         PluginName = Name,
                         Title = "Copy password to clipboard",
                         FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
-                        Glyph = "\xE8C8", // Copy
+                        Glyph = "\xF78D", // Reveal password
                         AcceleratorKey = Key.X,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
@@ -63,6 +65,50 @@ public partial class Main : IContextMenu
                             return true;
                         },
                     },
+                    new()
+                    {
+                        PluginName = Name,
+                        Title = "Copy OTP to clipboard",
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
+                        Glyph = "\xEC92", // Clock
+                        AcceleratorKey = Key.O,
+                        AcceleratorModifiers = ModifierKeys.Control,
+                        Action = _ =>
+                        {
+                            if (selectedResult.ContextData is not string itemId || _passwordManager is null) {
+                                return false;
+                            }
+
+                            var item = _passwordManager.SearchForItem(itemId);
+                            var otpUrl  = item?.Fields.FirstOrDefault(field => field.Label == "one-time password")?.Value;
+
+                            if (otpUrl is null) {
+                                System.Windows.Clipboard.SetText("Missing");
+                                return true;
+                            }
+
+                                // Decode the URL
+                               var uri = new Uri(otpUrl);
+                               var label = Uri.UnescapeDataString(uri.AbsolutePath.Substring(1)); // Removing the leading '/'
+                               var queryString = HttpUtility.ParseQueryString(uri.Query);
+                               var secret = queryString["secret"];
+                               var issuer = queryString["issuer"];
+
+                               // Decode the base32 encoded secret
+                               var secretBytes = Base32Encoding.ToBytes(secret);
+
+                               // Create a TOTP object with the secret, default parameters are used here
+                               var totp = new Totp(secretBytes);
+
+                               // Generate a TOTP code
+                               var code = totp.ComputeTotp();
+
+                            System.Windows.Clipboard.SetText(code  ?? "Missing");
+
+                            return true;
+                        },
+                    },
+
                     new()
                     {
                         PluginName = Name,
@@ -98,6 +144,17 @@ public partial class Main : IContextMenu
                         },
                     }
         ]);
+    }
+
+    private static OtpHashMode GetHashMode(string algorithm)
+    {
+        return algorithm switch
+        {
+            "SHA1" => OtpHashMode.Sha1,
+            "SHA256" => OtpHashMode.Sha256,
+            "SHA512" => OtpHashMode.Sha512,
+            _ => OtpHashMode.Sha1, // Default to SHA1 if not specified
+        };
     }
 
 }

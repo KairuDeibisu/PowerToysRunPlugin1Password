@@ -8,15 +8,16 @@ sudo {
 
 	# change this to your PowerToys installation path
 	$ptPath = 'C:\Program Files\PowerToys'
-	$project = '_1PasswordPlugin'
+	$project = '_1Password'
 	$debug = '.\bin\x64\Debug\net8.0-windows'
 	$dest = "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$project"
 	$files = @(
 		"Community.PowerToys.Run.Plugin.$project.deps.json",
 		"Community.PowerToys.Run.Plugin.$project.dll",
+		'OnePassword.NET.dll',
+		'Otp.NET.dll',
 		'plugin.json',
-		'Images',
-		'OnePassword.NET.dll'
+		'Images'
 	)
 
 	Set-Location $debug

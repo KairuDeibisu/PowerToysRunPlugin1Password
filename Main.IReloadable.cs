@@ -37,11 +37,27 @@ public partial class Main : IReloadable
 
         _passwordManager = new OnePasswordManager(onePasswordManagerOptions);
 
+        var favoriteItems = _passwordManager.SearchForItems(favorite: true);
+
+        if (OnePasswordPreloadFavorite) {
+            foreach (var item in favoriteItems)
+            {
+                if (!_items.Contains(item) && item?.Vault.Name != OnePasswordExcludeVault)
+                    _items.Add(item);
+
+            }
+        }
+
+
         if (_initialVaultsLoaded) {
             foreach (var vault in _loadedVaults.Values) {
                 foreach (var item in _passwordManager.GetItems(vault))
                 {
-                    _items.Add(item);
+                    if (!_items.Contains(item)) {
+                        _items.Add(item);
+                        continue;
+                    }
+                    break;
                 }
             }
             return;
@@ -72,6 +88,8 @@ public partial class Main : IReloadable
             LoadVault(initVault);
             _initialVaultsLoaded = true;
         }
+
+
     }
 
     // Handle Lazy Loading
