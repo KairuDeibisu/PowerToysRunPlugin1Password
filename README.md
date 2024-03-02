@@ -14,7 +14,7 @@ This repository contains the Community PowerToys Run Plugin for 1Password, enabl
 Ensure you have installed:
 - PowerToys v0.78 or higher.
 - 1Password for Windows v8.## or higher.
-- 1Password CLI v2.## or higher, configured and in your system's PATH.
+- 1Password CLI v2.## or higher
 
 **Installation:**
 
