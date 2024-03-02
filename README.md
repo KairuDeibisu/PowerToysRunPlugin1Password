@@ -17,3 +17,5 @@ Ensure you have installed:
 
 1. Download the plugin from the [Releases page](https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/releases).
 2. Extract the ZIP file to `%LOCALAPPDATA%\Microsoft\PowerToys\RunPlugins`.
+
+<img width="712" alt="image" src="https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/assets/34011041/6ae0b539-10af-4daa-a7df-5337777c9f21">
