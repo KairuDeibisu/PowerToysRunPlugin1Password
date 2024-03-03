@@ -42,7 +42,7 @@ public partial class Main : IReloadable
         if (OnePasswordPreloadFavorite) {
             foreach (var item in favoriteItems)
             {
-                if (!_items.Contains(item) && item?.Vault.Name != OnePasswordExcludeVault)
+                if (!_items.Contains(item) && item?.Vault?.Name != OnePasswordExcludeVault && item != null)
                     _items.Add(item);
 
             }

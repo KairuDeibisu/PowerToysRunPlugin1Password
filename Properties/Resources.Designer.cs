@@ -70,6 +70,15 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name of a vault to never load. This takes priority, event if an item in the vault is favorited..
+        /// </summary>
+        internal static string one_password_exclude_vault_desc {
+            get {
+                return ResourceManager.GetString("one_password_exclude_vault_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exclude Vault.
         /// </summary>
         internal static string one_password_exlude_vault {
@@ -88,11 +97,29 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name of a vault to always keep loaded for search. Note: this only keeps the id and name of the vault loaded..
+        /// </summary>
+        internal static string one_password_init_vault_desc {
+            get {
+                return ResourceManager.GetString("one_password_init_vault_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Install Path.
         /// </summary>
         internal static string one_password_install_path {
             get {
                 return ResourceManager.GetString("one_password_install_path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The path to the one password cli exe called op.exe.
+        /// </summary>
+        internal static string one_password_install_path_desc {
+            get {
+                return ResourceManager.GetString("one_password_install_path_desc", resourceCulture);
             }
         }
         
@@ -138,6 +165,42 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         internal static string plugin_setting {
             get {
                 return ResourceManager.GetString("plugin_setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows History.
+        /// </summary>
+        internal static string windows_enable_history {
+            get {
+                return ResourceManager.GetString("windows_enable_history", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow Copied item to show in windows history.
+        /// </summary>
+        internal static string windows_enable_history_desc {
+            get {
+                return ResourceManager.GetString("windows_enable_history_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow Roaming.
+        /// </summary>
+        internal static string windows_enable_roaming {
+            get {
+                return ResourceManager.GetString("windows_enable_roaming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow Copied item to show accross devices.
+        /// </summary>
+        internal static string windows_enable_roaming_desc {
+            get {
+                return ResourceManager.GetString("windows_enable_roaming_desc", resourceCulture);
             }
         }
     }

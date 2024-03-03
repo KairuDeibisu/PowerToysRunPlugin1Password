@@ -22,6 +22,9 @@ public partial class Main : ISettingProvider
     public string? OnePasswordExcludeVault { get; set; }
 
     public bool OnePasswordPreloadFavorite { get; set; }
+    public bool WindowsEnableHistory { get; set; }
+    public bool WindowsEnableRoaming { get; set; }
+
 
 
 
@@ -31,24 +34,41 @@ public partial class Main : ISettingProvider
         {
             Key = nameof(OnePasswordInstallPath),
             DisplayLabel = Properties.Resources.one_password_install_path,
+            DisplayDescription = Properties.Resources.one_password_install_path_desc,
             PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
         },
         new PluginAdditionalOption
         {
             Key = nameof(OnePasswordInitVault),
             DisplayLabel = Properties.Resources.one_password_init_vault,
+            DisplayDescription = Properties.Resources.one_password_init_vault_desc,
             PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
         },
         new PluginAdditionalOption
         {
             Key = nameof(OnePasswordExcludeVault),
             DisplayLabel = Properties.Resources.one_password_exlude_vault,
+            DisplayDescription = Properties.Resources.one_password_exclude_vault_desc,
             PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
         },
         new PluginAdditionalOption
         {
             Key = nameof(OnePasswordPreloadFavorite),
             DisplayLabel = Properties.Resources.one_password_preload_favorite,
+            PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
+        },
+        new PluginAdditionalOption
+        {
+            Key = nameof(WindowsEnableHistory),
+            DisplayLabel = Properties.Resources.windows_enable_history,
+            DisplayDescription = Properties.Resources.windows_enable_history_desc,
+            PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
+        },
+        new PluginAdditionalOption
+        {
+            Key = nameof(WindowsEnableRoaming),
+            DisplayLabel = Properties.Resources.windows_enable_roaming,
+            DisplayDescription = Properties.Resources.windows_enable_roaming_desc,
             PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
         },
     };
@@ -59,6 +79,8 @@ public partial class Main : ISettingProvider
         OnePasswordInitVault = (string)GetSettingOrDefault(settings, nameof(OnePasswordInitVault));
         OnePasswordExcludeVault = (string)GetSettingOrDefault(settings, nameof(OnePasswordExcludeVault));
         OnePasswordPreloadFavorite = (bool)GetSettingOrDefault(settings, nameof(OnePasswordPreloadFavorite));
+        WindowsEnableHistory = (bool)GetSettingOrDefault(settings, nameof(WindowsEnableHistory));
+        WindowsEnableRoaming = (bool)GetSettingOrDefault(settings, nameof(WindowsEnableRoaming));
     }
 
     private object GetSettingOrDefault(PowerLauncherPluginSettings settings, string key)

@@ -2,15 +2,21 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using OnePassword.Vaults;
 using OtpNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows;
 using System.Windows.Input;
 using Wox.Plugin;
+using static System.Net.Mime.MediaTypeNames;
+
+
 
 namespace Community.PowerToys.Run.Plugin._1Password;
 
@@ -38,7 +44,9 @@ public partial class Main : IContextMenu
                             var item = _passwordManager.SearchForItem(itemId);
                             var fieldValue = item?.Fields.FirstOrDefault(field => field.Label == "email" || field.Label == "username")?.Value;
 
-                            System.Windows.Clipboard.SetText(fieldValue ?? "Missing");
+
+
+                            EnhancedClipboard.CopyHelper(fieldValue ?? "Missing", WindowsEnableHistory, WindowsEnableRoaming);
 
                             return true;
                         },
@@ -48,7 +56,7 @@ public partial class Main : IContextMenu
                         PluginName = Name,
                         Title = "Copy password to clipboard",
                         FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
-                        Glyph = "\xF78D", // Reveal password
+                        Glyph = "\xF78D", // eye
                         AcceleratorKey = Key.X,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
@@ -60,7 +68,7 @@ public partial class Main : IContextMenu
                             var item = _passwordManager.SearchForItem(itemId);
                             var fieldValue = item?.Fields.FirstOrDefault(field => field.Label == "password")?.Value;
 
-                            System.Windows.Clipboard.SetText(fieldValue ?? "Missing");
+                            EnhancedClipboard.CopyHelper(fieldValue ?? "Missing", WindowsEnableHistory, WindowsEnableRoaming);
 
                             return true;
                         },
@@ -103,7 +111,7 @@ public partial class Main : IContextMenu
                                // Generate a TOTP code
                                var code = totp.ComputeTotp();
 
-                            System.Windows.Clipboard.SetText(code  ?? "Missing");
+                            EnhancedClipboard.CopyHelper(code  ?? "Missing", WindowsEnableHistory, WindowsEnableRoaming);
 
                             return true;
                         },
@@ -146,15 +154,7 @@ public partial class Main : IContextMenu
         ]);
     }
 
-    private static OtpHashMode GetHashMode(string algorithm)
-    {
-        return algorithm switch
-        {
-            "SHA1" => OtpHashMode.Sha1,
-            "SHA256" => OtpHashMode.Sha256,
-            "SHA512" => OtpHashMode.Sha512,
-            _ => OtpHashMode.Sha1, // Default to SHA1 if not specified
-        };
-    }
 
 }
+
+

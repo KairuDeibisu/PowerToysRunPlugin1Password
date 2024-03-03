@@ -120,14 +120,23 @@
   <data name="one_password_domain" xml:space="preserve">
     <value>Domain</value>
   </data>
+  <data name="one_password_exclude_vault_desc" xml:space="preserve">
+    <value>The name of a vault to never load. This takes priority, event if an item in the vault is favorited.</value>
+  </data>
   <data name="one_password_exlude_vault" xml:space="preserve">
     <value>Exclude Vault</value>
   </data>
   <data name="one_password_init_vault" xml:space="preserve">
     <value>Preload Vault</value>
   </data>
+  <data name="one_password_init_vault_desc" xml:space="preserve">
+    <value>The name of a vault to always keep loaded for search. Note: this only keeps the id and name of the vault loaded.</value>
+  </data>
   <data name="one_password_install_path" xml:space="preserve">
     <value>Install Path</value>
+  </data>
+  <data name="one_password_install_path_desc" xml:space="preserve">
+    <value>The path to the one password cli exe called op.exe</value>
   </data>
   <data name="one_password_preload_favorite" xml:space="preserve">
     <value>Preload Favorites</value>
@@ -143,5 +152,17 @@
   </data>
   <data name="plugin_setting" xml:space="preserve">
     <value>1Password Settings</value>
+  </data>
+  <data name="windows_enable_history" xml:space="preserve">
+    <value>Windows History</value>
+  </data>
+  <data name="windows_enable_history_desc" xml:space="preserve">
+    <value>Allow Copied item to show in windows history</value>
+  </data>
+  <data name="windows_enable_roaming" xml:space="preserve">
+    <value>Allow Roaming</value>
+  </data>
+  <data name="windows_enable_roaming_desc" xml:space="preserve">
+    <value>Allow Copied item to show accross devices</value>
   </data>
 </root>
