@@ -6,14 +6,19 @@ This repository contains the Community PowerToys Run Plugin for 1Password, enabl
 - **Copy to Clipboard**: Copy usernames and passwords easily.
 - **Customizable Settings**: Set up 1Password path and default vault in PowerToys settings.
 
+![image](https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/assets/34011041/3ddd04fd-a291-4ee7-a001-64d781595743)
+
+
 **Prerequisites:**
 
 Ensure you have installed:
 - PowerToys v0.78 or higher.
 - 1Password for Windows v8.## or higher.
-- 1Password CLI v2.## or higher, configured and in your system's PATH.
+- 1Password CLI v2.## or higher
 
 **Installation:**
 
 1. Download the plugin from the [Releases page](https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/releases).
 2. Extract the ZIP file to `%LOCALAPPDATA%\Microsoft\PowerToys\RunPlugins`.
+
+<img width="712" alt="image" src="https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/assets/34011041/6ae0b539-10af-4daa-a7df-5337777c9f21">
