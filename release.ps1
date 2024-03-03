@@ -26,7 +26,7 @@ git push --tags
 
 Remove-Item ./out/*.zip -Recurse -Force -ErrorAction Ignore
 foreach ($arch in $archs) {
-    $releasePath = "./bin/$arch/Release/net8.0-windows"
+    $releasePath = Join-Path $PSScriptRoot "bin/$arch/Release/net8.0-windows"
 
     dotnet build $projectFile -c Release /p:Platform=$arch -o $releasePath
 
@@ -35,7 +35,7 @@ foreach ($arch in $archs) {
         continue
     }
 
-    $outputDir = "./out/$name/$arch"
+    $outputDir = Join-Path $PSScriptRoot "out/$name/$arch"
     Remove-Item $outputDir -Recurse -Force -ErrorAction Ignore
     New-Item -ItemType Directory -Path $outputDir -Force
 
@@ -46,8 +46,30 @@ foreach ($arch in $archs) {
                "$releasePath/OnePassword.NET.dll", `
                "$releasePath/Otp.NET.dll" `
                -Destination $outputDir -Recurse -Force
-    Compress-Archive "$outputDir/*" "./out/$name-$version-$arch.zip" -Force
+
+    if ((Get-ChildItem $outputDir -File).Count -eq 0) {
+        Write-Error "No files found to compress for architecture $arch."
+        continue
+    }
+
+    $zipFilePath = Join-Path $PSScriptRoot "out/$name-$version-$arch.zip"
+    Compress-Archive -Path "$outputDir/*" -DestinationPath $zipFilePath -Force
 }
 
-gh release create $version (Get-ChildItem ./out/*.zip -Name)
+# Ensure we're still at the script's root directory for consistency
+Set-Location $PSScriptRoot
+
+# Collect the paths to all zip files in the 'out' directory
+$zipFiles = Get-ChildItem -Path "./out" -Filter "*.zip" -Recurse | ForEach-Object { $_.FullName }
+
+if ($zipFiles.Count -eq 0) {
+    Write-Error "No zip files found to upload."
+    Pop-Location
+    exit
+}
+
+# Create a GitHub release and upload the zip files
+gh release create $version $zipFiles --title "$name Release $version" --notes "Release notes here."
+
+# Return to the previous location
 Pop-Location
