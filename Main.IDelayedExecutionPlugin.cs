@@ -20,24 +20,6 @@ public partial class Main : IDelayedExecutionPlugin
 
         var results = new ConcurrentBag<Result>();
 
-        if (string.IsNullOrEmpty(OnePasswordInstallPath))
-            return [new() {
-            Title = "1password - Missing Install Path",
-            SubTitle = "Set your install path in the plugin's settings",
-            Action = context => true,
-        }];
-
-        if (string.IsNullOrEmpty(query.Search))
-        {
-            return [.. results];
-        }
-
-        if (_items is null)
-            return [new() {
-            Title = "DEV ERROR - _items should be init!",
-            SubTitle = "Set your install path in the plugin's settings",
-            Action = context => true,
-        }];
 
         Parallel.ForEach(_items, item =>
         {
@@ -55,34 +37,7 @@ public partial class Main : IDelayedExecutionPlugin
 
         });
 
-        if (_isLoadingVault == true)
-        {
-            return [.. results];
-        }
-
-        if (results.Count() < 3)
-        {
-            results.Add(new Result()
-            {
-                Title = "Load More",
-                SubTitle = "Load More Vaults",
-                Action = _ => {
-                    HandleLoadMore();
-                    return true;
-                }
-            });
-            results.Add(new Result()
-            {
-                Title = "Reload All",
-                SubTitle = "Warning: Reloading all day may cause search to hang for a moment...",
-                Action = _ => {
-                    ReloadData();
-                    return true;
-                }
-            });
-        }
-
-
+  
         return [.. results];
     }
 

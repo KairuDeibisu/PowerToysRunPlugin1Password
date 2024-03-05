@@ -32,32 +32,88 @@ public partial class Main : IPlugin
     // This set is used to store the items that are loaded from the 1password CLI client.
     // The set is used to ensure that the items are unique and to provide fast lookups.
     // Also, the items only contain the data that is needed for the plugin to function, which, in this case, is the item's ID, name.
-    private HashSet<Item>? _items;
-    private Dictionary<string, Vault>? _loadedVaults;
-
-    // The vault that should be loaded when the plugin is initialized.
-    private volatile bool _initialVaultsLoaded = false;
-
+    private List<Item>? _items;
+    private Dictionary<string, Vault>? _vaults;
 
     // A queue of vaults that are waiting to be loaded.
-    private ConcurrentQueue<Vault> _vaultsQueue = new ConcurrentQueue<Vault>();
+    private Queue<Vault> _vaultsQueue = new Queue<Vault>();
+
+
+    // A flag that indicates an error occurred
+    private bool _disabled = false;
+    private string _disabledReason = "";
 
 
     // Initialization, settings update, and disposal methods
     public void Init(PluginInitContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
-        //_context.CurrentPluginMetadata.Author = Properties.Resources.plugin_author;
         _context.API.ThemeChanged += OnThemeChanged;
         
         UpdateIconPath(_context.API.GetCurrentTheme());
 
-        _items = new HashSet<Item>();
-        _loadedVaults = new Dictionary<string, Vault>();
+        _items = new List<Item>();
+        _vaults = new Dictionary<string, Vault>();
+        _vaultsQueue = new Queue<Vault>();
 
-        ReloadData();
+        InitializeConfiguration();
 
     }
+
+    private void InitializeConfiguration()
+    {
+        if (!InitializePasswordManager()) return;
+        if (!InitializeAccountHandling()) return;
+        InitializeLazyVaults();
+        InitializeItems();
+    }
+
+    private void InitializeLazyVaults()
+    {
+        var allVaults = _passwordManager.GetVaults();
+
+        // Remove excluded vaults and the initial vault
+        if (!string.IsNullOrEmpty(OnePasswordExcludeVault))
+        {
+            allVaults.RemoveAll(vault => vault.Name == OnePasswordExcludeVault || vault.Name == OnePasswordInitVault);
+        }
+
+        var initalVault = allVaults.FirstOrDefault(vault => vault.Name == OnePasswordInitVault);
+        if (initalVault is not null)
+        {
+            _vaults.Add(initalVault.Id, initalVault);
+        }
+
+        // Queue remaining vaults for lazy loading
+        foreach (var vault in allVaults)
+        {
+            _vaultsQueue.Enqueue(vault);
+        }
+    }
+
+    private void InitializeItems()
+    {
+        if (OnePasswordPreloadFavorite) AddItemsFromVault(_passwordManager.SearchForItems(favorite: true));
+
+        foreach(var vault in _vaults.Values)
+        {
+            AddItemsFromVault(_passwordManager.GetItems(vault));
+        }
+
+    }
+
+
+    private void AddItemsFromVault(IEnumerable<Item> items)
+    {
+        foreach (var item in items)
+        {
+            if (!_items.Any(i => i.Id == item.Id || i?.Vault?.Name == OnePasswordExcludeVault))
+            {
+                _items.Add(item);
+            }
+        }
+    }
+
 
     private void UpdateIconPath(Theme theme)
     {
@@ -70,18 +126,27 @@ public partial class Main : IPlugin
     }
 
 
-    /// <summary>
-    /// DO NOT USE
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
     public List<Result> Query(Query query)
     {
         ArgumentNullException.ThrowIfNull(query);
 
         var results = new List<Result>();
+
+        if (_disabled)
+            return [new() {
+            Title = "1password - has been disabled",
+            SubTitle = _disabledReason,
+        }];
+
         return results;
     }
 
+    private void DisablePlugin(string reason)
+    {
+        _disabled = true;
+        _disabledReason = reason;
+    }
 
- }
+
+
+}

@@ -24,7 +24,8 @@ public partial class Main : IContextMenu
 {
     public List<ContextMenuResult> LoadContextMenus(Result selectedResult)
     {
-        return selectedResult.ContextData is null
+
+        return selectedResult.ContextData is null || _disabled
             ? ([])
             : ([
                     new()

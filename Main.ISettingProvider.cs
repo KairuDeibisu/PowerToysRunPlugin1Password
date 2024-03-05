@@ -21,9 +21,13 @@ public partial class Main : ISettingProvider
 
     public string? OnePasswordExcludeVault { get; set; }
 
+    public string? OnePasswordEmail { get; set; }
+
     public bool OnePasswordPreloadFavorite { get; set; }
     public bool WindowsEnableHistory { get; set; }
     public bool WindowsEnableRoaming { get; set; }
+
+
 
 
 
@@ -35,6 +39,13 @@ public partial class Main : ISettingProvider
             Key = nameof(OnePasswordInstallPath),
             DisplayLabel = Properties.Resources.one_password_install_path,
             DisplayDescription = Properties.Resources.one_password_install_path_desc,
+            PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
+        },
+        new PluginAdditionalOption
+        {
+            Key = nameof(OnePasswordEmail),
+            DisplayLabel = Properties.Resources.one_password_email,
+            DisplayDescription = Properties.Resources.one_password_email_desc,
             PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
         },
         new PluginAdditionalOption
@@ -76,11 +87,15 @@ public partial class Main : ISettingProvider
     public void UpdateSettings(PowerLauncherPluginSettings settings)
     {
         OnePasswordInstallPath = (string)GetSettingOrDefault(settings, nameof(OnePasswordInstallPath));
+        OnePasswordEmail = (string)GetSettingOrDefault(settings, nameof(OnePasswordEmail));
         OnePasswordInitVault = (string)GetSettingOrDefault(settings, nameof(OnePasswordInitVault));
         OnePasswordExcludeVault = (string)GetSettingOrDefault(settings, nameof(OnePasswordExcludeVault));
         OnePasswordPreloadFavorite = (bool)GetSettingOrDefault(settings, nameof(OnePasswordPreloadFavorite));
         WindowsEnableHistory = (bool)GetSettingOrDefault(settings, nameof(WindowsEnableHistory));
         WindowsEnableRoaming = (bool)GetSettingOrDefault(settings, nameof(WindowsEnableRoaming));
+
+        _disabled = false;
+
     }
 
     private object GetSettingOrDefault(PowerLauncherPluginSettings settings, string key)

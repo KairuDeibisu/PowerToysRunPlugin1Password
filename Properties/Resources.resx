@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="error_email_found_no_match" xml:space="preserve">
+    <value>No account found with the specified email</value>
+  </data>
+  <data name="error_email_not_specified" xml:space="preserve">
+    <value>Multiple accounts found, but no email specified</value>
+  </data>
+  <data name="error_internal_error_vaults_not_initialized" xml:space="preserve">
+    <value>Internal Error: Items or Vaults not initialized</value>
+  </data>
+  <data name="error_missing_required_one_password_cli_path" xml:space="preserve">
+    <value>Missing Required: 1Password CLI Path</value>
+  </data>
+  <data name="error_one_password_no_accounts_found" xml:space="preserve">
+    <value>1password - No accounts found</value>
+  </data>
+  <data name="msg_box_title_one_password_disabled" xml:space="preserve">
+    <value>1Password Plugin is disabled</value>
+  </data>
   <data name="one_password_domain" xml:space="preserve">
     <value>Domain</value>
+  </data>
+  <data name="one_password_email" xml:space="preserve">
+    <value>Account Email</value>
+  </data>
+  <data name="one_password_email_desc" xml:space="preserve">
+    <value>Email of the account to view. This is required if multiple accounts are signed in.</value>
   </data>
   <data name="one_password_exclude_vault_desc" xml:space="preserve">
     <value>The name of a vault to never load. This takes priority, event if an item in the vault is favorited.</value>

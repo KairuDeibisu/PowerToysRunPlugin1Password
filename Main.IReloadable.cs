@@ -10,11 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wox.Plugin;
+using OnePassword.Accounts;
+using OnePassword.Items;
 
 namespace Community.PowerToys.Run.Plugin._1Password;
 
 public partial class Main : IReloadable
 {
+
     public void ReloadData()
     {
         if (_context is not null)
@@ -22,107 +25,78 @@ public partial class Main : IReloadable
             UpdateIconPath(_context.API.GetCurrentTheme());
         }
 
-        if (string.IsNullOrEmpty(OnePasswordInstallPath) || string.IsNullOrEmpty(OnePasswordInitVault) || _items is null || _loadedVaults is null)
-        {
-            return;
-        }
-
         _items.Clear();
+        InitializeItems();
 
-        var onePasswordManagerOptions = new OnePasswordManagerOptions
+    }
+
+    private bool InitializePasswordManager() {
+        if (string.IsNullOrEmpty(OnePasswordInstallPath))
         {
-            Path = OnePasswordInstallPath,
-            AppIntegrated = true
-        };
+            DisablePlugin(Properties.Resources.error_missing_required_one_password_cli_path);
+            return false;
+        }
 
+        if (_items is null || _vaults is null)
+        {
+            DisablePlugin(Properties.Resources.error_internal_error_vaults_not_initialized);
+            return false;
+        }
+
+        var onePasswordManagerOptions = new OnePasswordManagerOptions { Path = OnePasswordInstallPath, AppIntegrated = true };
         _passwordManager = new OnePasswordManager(onePasswordManagerOptions);
-
-        var favoriteItems = _passwordManager.SearchForItems(favorite: true);
-
-        if (OnePasswordPreloadFavorite) {
-            foreach (var item in favoriteItems)
-            {
-                if (!_items.Contains(item) && item?.Vault?.Name != OnePasswordExcludeVault && item != null)
-                    _items.Add(item);
-
-            }
-        }
-
-
-        if (_initialVaultsLoaded) {
-            foreach (var vault in _loadedVaults.Values) {
-                foreach (var item in _passwordManager.GetItems(vault))
-                {
-                    if (!_items.Contains(item)) {
-                        _items.Add(item);
-                        continue;
-                    }
-                    break;
-                }
-            }
-            return;
-        }
-
-        var allVaults = _passwordManager.GetVaults();
-
-        if (string.IsNullOrEmpty(OnePasswordExcludeVault))
-        {
-            _ = allVaults.RemoveAll(vault => vault.Name == OnePasswordExcludeVault);
-        }
-
-        Vault? initVault = null;
-
-        foreach (var vault in allVaults)
-        {
-            if (vault.Name == OnePasswordInitVault)
-            {
-                initVault = vault;
-                continue;
-            }
-
-            _vaultsQueue.Enqueue(vault);
-        }
-
-        if (initVault is not null)
-        {
-            LoadVault(initVault);
-            _initialVaultsLoaded = true;
-        }
-
-
+        return true;
     }
 
-    // Handle Lazy Loading
-
-    private volatile bool _isLoadingVault = false;
-    public void LoadVault(Vault? vault)
+    private bool InitializeAccountHandling()
     {
-        if (_passwordManager == null || vault is null || _loadedVaults is null ||  _loadedVaults.ContainsKey(vault.Id) )
+        var accounts = _passwordManager.GetAccounts();
+        if (accounts.IsEmpty)
         {
-            return;
+            DisablePlugin(Properties.Resources.error_one_password_no_accounts_found);
+            return false;
         }
 
-        _isLoadingVault = true;
-
-        var itemsToAdd = _passwordManager.GetItems(vault);
-
-        foreach (var item in itemsToAdd)
+        Account? account = null;
+        if (accounts.Count > 1)
         {
-            _items?.Add(item);
+            if (string.IsNullOrEmpty(OnePasswordEmail))
+            {
+                DisablePlugin(Properties.Resources.error_email_not_specified);
+                return false;
+
+            }
+
+            account = accounts.FirstOrDefault(acc => acc.Email == OnePasswordEmail);
+            if (account is null)
+            {
+                DisablePlugin(Properties.Resources.error_email_found_no_match);
+                return false;
+
+            }
         }
 
-        _loadedVaults.TryAdd(vault.Id, vault);
+        if (account is null)
+        {
+            return true;
+        }
 
-        _isLoadingVault = false;
+        _passwordManager.UseAccount(account?.Email);
+        return true;
     }
-    private void HandleLoadMore()
+
+    public void LoadVault(Vault vault)
     {
-        if (_passwordManager == null || _isLoadingVault || (_vaultsQueue.Count == 0))
+        if (_passwordManager is null || _vaults is null  || _vaults.ContainsKey(vault.Id))
         {
             return;
         }
 
-        _ = _vaultsQueue.TryDequeue(out Vault? result);
-        LoadVault(result);
+        AddItemsFromVault(_passwordManager.GetItems(vault));
+        _vaults.TryAdd(vault.Id, vault);
     }
+
+
+
+
 }

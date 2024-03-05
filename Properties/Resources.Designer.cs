@@ -61,11 +61,83 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No account found with the specified email.
+        /// </summary>
+        internal static string error_email_found_no_match {
+            get {
+                return ResourceManager.GetString("error_email_found_no_match", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple accounts found, but no email specified.
+        /// </summary>
+        internal static string error_email_not_specified {
+            get {
+                return ResourceManager.GetString("error_email_not_specified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Error: Items or Vaults not initialized.
+        /// </summary>
+        internal static string error_internal_error_vaults_not_initialized {
+            get {
+                return ResourceManager.GetString("error_internal_error_vaults_not_initialized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Required: 1Password CLI Path.
+        /// </summary>
+        internal static string error_missing_required_one_password_cli_path {
+            get {
+                return ResourceManager.GetString("error_missing_required_one_password_cli_path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1password - No accounts found.
+        /// </summary>
+        internal static string error_one_password_no_accounts_found {
+            get {
+                return ResourceManager.GetString("error_one_password_no_accounts_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1Password Plugin is disabled.
+        /// </summary>
+        internal static string msg_box_title_one_password_disabled {
+            get {
+                return ResourceManager.GetString("msg_box_title_one_password_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain.
         /// </summary>
         internal static string one_password_domain {
             get {
                 return ResourceManager.GetString("one_password_domain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Email.
+        /// </summary>
+        internal static string one_password_email {
+            get {
+                return ResourceManager.GetString("one_password_email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email of the account to view. This is required if multiple accounts are signed in..
+        /// </summary>
+        internal static string one_password_email_desc {
+            get {
+                return ResourceManager.GetString("one_password_email_desc", resourceCulture);
             }
         }
         
