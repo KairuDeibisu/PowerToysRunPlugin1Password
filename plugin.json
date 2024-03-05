@@ -5,7 +5,7 @@
   "IsGlobal": false,
   "Name": "1Password",
   "Author": "KairuDeibisu",
-  "Version": "1.2.0",
+  "Version": "1.3.0",
   "Language": "csharp",
   "Website": "https://github.com/KairuDeibisu/PowerToysRunPlugin1Password",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin._1Password.dll",
