@@ -27,6 +27,6 @@ Ensure you have installed:
 
 <img width="526" alt="image" src="https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/assets/34011041/f41391e6-4037-40dd-beeb-c3e5a149620a">
 
-Legal Disclaimer:
+# Legal Disclaimer
 
 This repository and its contents are not affiliated with, endorsed by, or sponsored by Microsoft Corporation, 1Password, or any of their respective affiliates or subsidiaries. The Community (Unofficial) PowerToys Run Plugin for 1Password is developed and maintained by independent contributors. The use of the PowerToys, 1Password, and any associated logos or trademarks are for descriptive purposes only and do not imply any endorsement or affiliation.
