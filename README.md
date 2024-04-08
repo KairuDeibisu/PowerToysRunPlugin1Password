@@ -19,7 +19,11 @@ Ensure you have installed:
 **Installation:**
 
 1. Download the plugin from the [Releases page](https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/releases).
-2. Extract the ZIP file to `%LOCALAPPDATA%\Microsoft\PowerToys\RunPlugins`.
+2. Quit Power Toys.
+3. Extract the ZIP file to `%LOCALAPPDATA%\Microsoft\PowerToys Run\Plugins`.
+4. Reopen Power Toys.
+5. Configure settings.
+6. Quit and reopen Power Toys.
 
 <img width="526" alt="image" src="https://github.com/KairuDeibisu/PowerToysRunPlugin1Password/assets/34011041/f41391e6-4037-40dd-beeb-c3e5a149620a">
 
