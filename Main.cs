@@ -5,10 +5,13 @@
 using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
 using OnePassword;
+using OnePassword.Accounts;
 using OnePassword.Items;
 using OnePassword.Vaults;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Wox.Plugin;
@@ -17,7 +20,7 @@ namespace Community.PowerToys.Run.Plugin._1Password;
 
 public partial class Main : IPlugin
 {
-    // IPlugin
+
     public static string PluginID => "9576F2CB78674305838C65FD2BE224AC";
     public string? IconPath { get; set; }
     private PluginInitContext? _context;
@@ -25,38 +28,40 @@ public partial class Main : IPlugin
     public string Description => Properties.Resources.plugin_description;
 
     
-    // A wrapper around the 1password CLI client.
     private OnePasswordManager? _passwordManager;
 
-    // A set of items loaded from the 1password CLI client.
-    // This set is used to store the items that are loaded from the 1password CLI client.
-    // The set is used to ensure that the items are unique and to provide fast lookups.
-    // Also, the items only contain the data that is needed for the plugin to function, which, in this case, is the item's ID, name.
-    private List<Item>? _items;
-    private Dictionary<string, Vault>? _vaults;
-
-    // A queue of vaults that are waiting to be loaded.
-    private Queue<Vault> _vaultsQueue = new Queue<Vault>();
-
-
-    // A flag that indicates an error occurred
     private bool _disabled = false;
-    private string _disabledReason = "";
+    private string _disabledReason = string.Empty;
+
+    private List<Item> _items;
+    private Dictionary<string, Vault> _vaults;
+    private Queue<Vault> _vaultsQueue = new();
+
+    public Main()
+    {
+        _items = new List<Item>();
+        _vaults = new Dictionary<string, Vault>();
+        _vaultsQueue = new Queue<Vault>();
+    }
 
 
-    // Initialization, settings update, and disposal methods
     public void Init(PluginInitContext context)
     {
+        Logger.InitializeLogger("1PasswordPluginLogs");
+        Logger.LogInfo("Initializing 1Password plugin");
+
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _context.API.ThemeChanged += OnThemeChanged;
         
         UpdateIconPath(_context.API.GetCurrentTheme());
 
-        _items = new List<Item>();
-        _vaults = new Dictionary<string, Vault>();
-        _vaultsQueue = new Queue<Vault>();
-
-        InitializeConfiguration();
+        try
+        {
+            InitializeConfiguration();
+        } catch (Exception ex)
+        {
+            Logger.LogError(ex.Message);
+        }
 
     }
 
@@ -64,27 +69,93 @@ public partial class Main : IPlugin
     {
         if (!InitializePasswordManager()) return;
         if (!InitializeAccountHandling()) return;
+        _passwordManager?.SignIn();
         InitializeLazyVaults();
         InitializeItems();
     }
 
+    private bool InitializePasswordManager()
+    {
+        Logger.LogInfo("Initializing 1Password Manager");
+
+        if (string.IsNullOrEmpty(PluginSettings.OnePasswordInstallPath))
+        {
+            DisablePlugin(Properties.Resources.error_missing_required_one_password_cli_path);
+            return false;
+        }
+
+        if (_items is null || _vaults is null)
+        {
+            DisablePlugin(Properties.Resources.error_internal_error_vaults_not_initialized);
+            return false;
+        }
+
+        var onePasswordManagerOptions = new OnePasswordManagerOptions { Path = PluginSettings.OnePasswordInstallPath, AppIntegrated = true };
+        _passwordManager = new OnePasswordManager(onePasswordManagerOptions);
+        return true;
+    }
+
+    private bool InitializeAccountHandling()
+    {
+        Logger.LogInfo("Checking for accounts");
+
+        if (_disabled || _passwordManager is null) return false;
+
+        var accounts = _passwordManager.GetAccounts();
+        if (accounts.IsEmpty)
+        {
+            DisablePlugin(Properties.Resources.error_one_password_no_accounts_found);
+            return false;
+        }
+
+        Account? account = null;
+        if (accounts.Count > 1)
+        {
+            if (string.IsNullOrEmpty(PluginSettings.OnePasswordEmail))
+            {
+                DisablePlugin(Properties.Resources.error_email_not_specified);
+                return false;
+
+            }
+
+            account = accounts.FirstOrDefault(acc => acc.Email == PluginSettings.OnePasswordEmail);
+            if (account is null)
+            {
+                DisablePlugin(Properties.Resources.error_email_found_no_match);
+                return false;
+
+            }
+        }
+
+        if (account is null)
+        {
+            return true;
+        }
+
+        _passwordManager.UseAccount(account.Email);
+
+        return true;
+    }
+
     private void InitializeLazyVaults()
     {
-        var allVaults = _passwordManager.GetVaults();
+        Logger.LogInfo("Initializing Lazy Loading");
+;
+        if (_disabled || _passwordManager is null) return;
 
-        // Remove excluded vaults and the initial vault
-        if (!string.IsNullOrEmpty(OnePasswordExcludeVault))
+
+        var allVaults = _passwordManager.GetVaults();
+        if (!string.IsNullOrEmpty(PluginSettings.OnePasswordExcludeVault))
         {
-            allVaults.RemoveAll(vault => vault.Name == OnePasswordExcludeVault || vault.Name == OnePasswordInitVault);
+            allVaults.RemoveAll(vault => vault.Name == PluginSettings.OnePasswordExcludeVault || vault.Name == PluginSettings.OnePasswordInitVault);
         }
 
-        var initalVault = allVaults.FirstOrDefault(vault => vault.Name == OnePasswordInitVault);
+        var initalVault = allVaults.FirstOrDefault(vault => vault.Name == PluginSettings.OnePasswordInitVault);
         if (initalVault is not null)
         {
-            _vaults.Add(initalVault.Id, initalVault);
+            _vaults?.Add(initalVault.Id, initalVault);
         }
 
-        // Queue remaining vaults for lazy loading
         foreach (var vault in allVaults)
         {
             _vaultsQueue.Enqueue(vault);
@@ -93,9 +164,14 @@ public partial class Main : IPlugin
 
     private void InitializeItems()
     {
-        if (OnePasswordPreloadFavorite) AddItemsFromVault(_passwordManager.SearchForItems(favorite: true));
+        Logger.LogInfo("Initializing Items");
 
-        foreach(var vault in _vaults.Values)
+        if (_disabled || _passwordManager is null) return;
+
+
+        if (PluginSettings.OnePasswordPreloadFavorite) AddItemsFromVault(_passwordManager.SearchForItems(favorite: true));
+
+        foreach (var vault in _vaults.Values)
         {
             AddItemsFromVault(_passwordManager.GetItems(vault));
         }
@@ -105,11 +181,15 @@ public partial class Main : IPlugin
 
     private void AddItemsFromVault(IEnumerable<Item> items)
     {
+        Logger.LogInfo("Adding Items From Vault");
+
+        if (_disabled || _passwordManager is null) return;
+
         foreach (var item in items)
         {
-            if (!_items.Any(i => i.Id == item.Id || i?.Vault?.Name == OnePasswordExcludeVault))
+            if (!_items?.Any(i => i.Id == item.Id || i?.Vault?.Name == PluginSettings.OnePasswordExcludeVault) ?? false)
             {
-                _items.Add(item);
+                _items?.Add(item);
             }
         }
     }
@@ -131,12 +211,15 @@ public partial class Main : IPlugin
         ArgumentNullException.ThrowIfNull(query);
 
         var results = new List<Result>();
-
         if (_disabled)
-            return [new() {
-            Title = "1password - has been disabled",
-            SubTitle = _disabledReason,
-        }];
+        {
+            return [
+                new() { 
+                    Title = "1password - has been disabled",
+                    SubTitle = _disabledReason,
+                }
+            ];
+        }
 
         return results;
     }
@@ -145,6 +228,7 @@ public partial class Main : IPlugin
     {
         _disabled = true;
         _disabledReason = reason;
+        Logger.LogWarning(reason);
     }
 
 

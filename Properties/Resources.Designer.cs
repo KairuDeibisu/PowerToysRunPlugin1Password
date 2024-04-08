@@ -88,6 +88,15 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The 1password manager failed to load. It&apos;s possable powertoys started before 1password. It&apos;s also possable your password was incorrect..
+        /// </summary>
+        internal static string error_internal_init_passsword_manager {
+            get {
+                return ResourceManager.GetString("error_internal_init_passsword_manager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing Required: 1Password CLI Path.
         /// </summary>
         internal static string error_missing_required_one_password_cli_path {
@@ -223,7 +232,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1Password.
+        ///   Looks up a localized string similar to 1Password (Unofficial Plugin).
         /// </summary>
         internal static string plugin_name {
             get {

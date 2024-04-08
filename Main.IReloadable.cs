@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Wox.Plugin;
 using OnePassword.Accounts;
 using OnePassword.Items;
+using ManagedCommon;
 
 namespace Community.PowerToys.Run.Plugin._1Password;
 
@@ -20,74 +21,27 @@ public partial class Main : IReloadable
 
     public void ReloadData()
     {
+        Logger.LogDebug("Reloading 1Password plugin data");
+
         if (_context is not null)
         {
             UpdateIconPath(_context.API.GetCurrentTheme());
         }
 
+
         _items.Clear();
-        InitializeItems();
 
-    }
-
-    private bool InitializePasswordManager() {
-        if (string.IsNullOrEmpty(OnePasswordInstallPath))
+        if (!_disabled)
         {
-            DisablePlugin(Properties.Resources.error_missing_required_one_password_cli_path);
-            return false;
+            InitializeItems();
         }
 
-        if (_items is null || _vaults is null)
-        {
-            DisablePlugin(Properties.Resources.error_internal_error_vaults_not_initialized);
-            return false;
-        }
 
-        var onePasswordManagerOptions = new OnePasswordManagerOptions { Path = OnePasswordInstallPath, AppIntegrated = true };
-        _passwordManager = new OnePasswordManager(onePasswordManagerOptions);
-        return true;
-    }
-
-    private bool InitializeAccountHandling()
-    {
-        var accounts = _passwordManager.GetAccounts();
-        if (accounts.IsEmpty)
-        {
-            DisablePlugin(Properties.Resources.error_one_password_no_accounts_found);
-            return false;
-        }
-
-        Account? account = null;
-        if (accounts.Count > 1)
-        {
-            if (string.IsNullOrEmpty(OnePasswordEmail))
-            {
-                DisablePlugin(Properties.Resources.error_email_not_specified);
-                return false;
-
-            }
-
-            account = accounts.FirstOrDefault(acc => acc.Email == OnePasswordEmail);
-            if (account is null)
-            {
-                DisablePlugin(Properties.Resources.error_email_found_no_match);
-                return false;
-
-            }
-        }
-
-        if (account is null)
-        {
-            return true;
-        }
-
-        _passwordManager.UseAccount(account?.Email);
-        return true;
     }
 
     public void LoadVault(Vault vault)
     {
-        if (_passwordManager is null || _vaults is null  || _vaults.ContainsKey(vault.Id))
+        if (_passwordManager is null || _vaults is null || _vaults.ContainsKey(vault.Id))
         {
             return;
         }

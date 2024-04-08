@@ -126,6 +126,9 @@
   <data name="error_internal_error_vaults_not_initialized" xml:space="preserve">
     <value>Internal Error: Items or Vaults not initialized</value>
   </data>
+  <data name="error_internal_init_passsword_manager" xml:space="preserve">
+    <value>The 1password manager failed to load. It's possable powertoys started before 1password. It's also possable your password was incorrect.</value>
+  </data>
   <data name="error_missing_required_one_password_cli_path" xml:space="preserve">
     <value>Missing Required: 1Password CLI Path</value>
   </data>
@@ -172,7 +175,7 @@
     <value>Search 1Password for usernames and passwords</value>
   </data>
   <data name="plugin_name" xml:space="preserve">
-    <value>1Password</value>
+    <value>1Password (Unofficial Plugin)</value>
   </data>
   <data name="plugin_setting" xml:space="preserve">
     <value>1Password Settings</value>

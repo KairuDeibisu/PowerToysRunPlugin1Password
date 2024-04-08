@@ -47,7 +47,7 @@ public partial class Main : IContextMenu
 
 
 
-                            EnhancedClipboard.CopyHelper(fieldValue ?? "Missing", WindowsEnableHistory, WindowsEnableRoaming);
+                            EnhancedClipboard.CopyHelper(fieldValue ?? "Missing", PluginSettings.WindowsEnableHistory, PluginSettings.WindowsEnableRoaming);
 
                             return true;
                         },
@@ -62,14 +62,14 @@ public partial class Main : IContextMenu
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
                         {
-                            if (selectedResult.ContextData is not string itemId || _passwordManager is null) {
+                            if (selectedResult.ContextData is not string itemid || _passwordManager is null) {
                                 return false;
                             }
 
-                            var item = _passwordManager.SearchForItem(itemId);
-                            var fieldValue = item?.Fields.FirstOrDefault(field => field.Label == "password")?.Value;
+                            var item = _passwordManager.SearchForItem(itemid);
+                            var fieldvalue = item?.Fields.FirstOrDefault(field => field.Label == "password")?.Value;
 
-                            EnhancedClipboard.CopyHelper(fieldValue ?? "Missing", WindowsEnableHistory, WindowsEnableRoaming);
+                            EnhancedClipboard.CopyHelper(fieldvalue ?? "missing", PluginSettings.WindowsEnableHistory, PluginSettings.WindowsEnableRoaming);
 
                             return true;
                         },
@@ -112,7 +112,7 @@ public partial class Main : IContextMenu
                                // Generate a TOTP code
                                var code = totp.ComputeTotp();
 
-                            EnhancedClipboard.CopyHelper(code  ?? "Missing", WindowsEnableHistory, WindowsEnableRoaming);
+                            EnhancedClipboard.CopyHelper(code  ?? "Missing", PluginSettings.WindowsEnableHistory, PluginSettings.WindowsEnableRoaming);
 
                             return true;
                         },
@@ -135,7 +135,7 @@ public partial class Main : IContextMenu
                             var item = _passwordManager.SearchForItem(itemId);
 
                             var old = _items?.FirstOrDefault(item => item.Id == itemId);
-                            
+
                             if (old is null) {
                                 return false;
                             }
@@ -148,7 +148,7 @@ public partial class Main : IContextMenu
                             _items?.Remove(old);
 
                             _items?.Add(item);
-                            
+
                             return true;
                         },
                     }
