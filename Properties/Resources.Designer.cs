@@ -61,7 +61,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No account found with the specified email.
+        ///   Looks up a localized string similar to No matching account for the provided email. Please verify the email address..
         /// </summary>
         internal static string error_email_found_no_match {
             get {
@@ -70,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiple accounts found, but no email specified.
+        ///   Looks up a localized string similar to Multiple accounts detected. Please specify an email address to select the correct account..
         /// </summary>
         internal static string error_email_not_specified {
             get {
@@ -79,7 +79,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Error: Items or Vaults not initialized.
+        ///   Looks up a localized string similar to Internal Error: Initialization failed: Items or Vaults are not set up correctly..
         /// </summary>
         internal static string error_internal_error_vaults_not_initialized {
             get {
@@ -88,7 +88,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The 1password manager failed to load. It&apos;s possable powertoys started before 1password. It&apos;s also possable your password was incorrect..
+        ///   Looks up a localized string similar to Failed to initialize the 1Password manager. Ensure 1Password is running and your credentials are correct..
         /// </summary>
         internal static string error_internal_init_passsword_manager {
             get {
@@ -97,7 +97,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing Required: 1Password CLI Path.
+        ///   Looks up a localized string similar to Configuration error: Path to the 1Password CLI is required but not set..
         /// </summary>
         internal static string error_missing_required_one_password_cli_path {
             get {
@@ -106,7 +106,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1password - No accounts found.
+        ///   Looks up a localized string similar to No 1Password accounts found. Please ensure you&apos;re signed in..
         /// </summary>
         internal static string error_one_password_no_accounts_found {
             get {
@@ -115,7 +115,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1Password Plugin is disabled.
+        ///   Looks up a localized string similar to 1Password Plugin Disabled.
         /// </summary>
         internal static string msg_box_title_one_password_disabled {
             get {
@@ -142,7 +142,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email of the account to view. This is required if multiple accounts are signed in..
+        ///   Looks up a localized string similar to Specify the account email if you have multiple 1Password accounts..
         /// </summary>
         internal static string one_password_email_desc {
             get {
@@ -151,7 +151,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of a vault to never load. This takes priority, event if an item in the vault is favorited..
+        ///   Looks up a localized string similar to Name of the vault to exclude from searches. Excluded vaults are ignored, even if they contain favorites..
         /// </summary>
         internal static string one_password_exclude_vault_desc {
             get {
@@ -178,7 +178,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of a vault to always keep loaded for search. Note: this only keeps the id and name of the vault loaded..
+        ///   Looks up a localized string similar to Name of the vault to preload for quick searches. Only the vault&apos;s ID and name are preloaded..
         /// </summary>
         internal static string one_password_init_vault_desc {
             get {
@@ -196,7 +196,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The path to the one password cli exe called op.exe.
+        ///   Looks up a localized string similar to Path to the 1Password CLI executable (op.exe)..
         /// </summary>
         internal static string one_password_install_path_desc {
             get {
@@ -259,7 +259,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allow Copied item to show in windows history.
+        ///   Looks up a localized string similar to Allows items copied from 1Password to appear in Windows clipboard history..
         /// </summary>
         internal static string windows_enable_history_desc {
             get {
@@ -277,7 +277,7 @@ namespace Community.PowerToys.Run.Plugin._1Password.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allow Copied item to show accross devices.
+        ///   Looks up a localized string similar to Enables copied items to sync across devices via Windows clipboard..
         /// </summary>
         internal static string windows_enable_roaming_desc {
             get {

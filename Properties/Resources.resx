@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="error_email_found_no_match" xml:space="preserve">
-    <value>No account found with the specified email</value>
+    <value>No matching account for the provided email. Please verify the email address.</value>
   </data>
   <data name="error_email_not_specified" xml:space="preserve">
-    <value>Multiple accounts found, but no email specified</value>
+    <value>Multiple accounts detected. Please specify an email address to select the correct account.</value>
   </data>
   <data name="error_internal_error_vaults_not_initialized" xml:space="preserve">
-    <value>Internal Error: Items or Vaults not initialized</value>
+    <value>Internal Error: Initialization failed: Items or Vaults are not set up correctly.</value>
   </data>
   <data name="error_internal_init_passsword_manager" xml:space="preserve">
-    <value>The 1password manager failed to load. It's possable powertoys started before 1password. It's also possable your password was incorrect.</value>
+    <value>Failed to initialize the 1Password manager. Ensure 1Password is running and your credentials are correct.</value>
   </data>
   <data name="error_missing_required_one_password_cli_path" xml:space="preserve">
-    <value>Missing Required: 1Password CLI Path</value>
+    <value>Configuration error: Path to the 1Password CLI is required but not set.</value>
   </data>
   <data name="error_one_password_no_accounts_found" xml:space="preserve">
-    <value>1password - No accounts found</value>
+    <value>No 1Password accounts found. Please ensure you're signed in.</value>
   </data>
   <data name="msg_box_title_one_password_disabled" xml:space="preserve">
-    <value>1Password Plugin is disabled</value>
+    <value>1Password Plugin Disabled</value>
   </data>
   <data name="one_password_domain" xml:space="preserve">
     <value>Domain</value>
@@ -145,10 +145,10 @@
     <value>Account Email</value>
   </data>
   <data name="one_password_email_desc" xml:space="preserve">
-    <value>Email of the account to view. This is required if multiple accounts are signed in.</value>
+    <value>Specify the account email if you have multiple 1Password accounts.</value>
   </data>
   <data name="one_password_exclude_vault_desc" xml:space="preserve">
-    <value>The name of a vault to never load. This takes priority, event if an item in the vault is favorited.</value>
+    <value>Name of the vault to exclude from searches. Excluded vaults are ignored, even if they contain favorites.</value>
   </data>
   <data name="one_password_exlude_vault" xml:space="preserve">
     <value>Exclude Vault</value>
@@ -157,13 +157,13 @@
     <value>Preload Vault</value>
   </data>
   <data name="one_password_init_vault_desc" xml:space="preserve">
-    <value>The name of a vault to always keep loaded for search. Note: this only keeps the id and name of the vault loaded.</value>
+    <value>Name of the vault to preload for quick searches. Only the vault's ID and name are preloaded.</value>
   </data>
   <data name="one_password_install_path" xml:space="preserve">
     <value>Install Path</value>
   </data>
   <data name="one_password_install_path_desc" xml:space="preserve">
-    <value>The path to the one password cli exe called op.exe</value>
+    <value>Path to the 1Password CLI executable (op.exe).</value>
   </data>
   <data name="one_password_preload_favorite" xml:space="preserve">
     <value>Preload Favorites</value>
@@ -184,12 +184,12 @@
     <value>Windows History</value>
   </data>
   <data name="windows_enable_history_desc" xml:space="preserve">
-    <value>Allow Copied item to show in windows history</value>
+    <value>Allows items copied from 1Password to appear in Windows clipboard history.</value>
   </data>
   <data name="windows_enable_roaming" xml:space="preserve">
     <value>Allow Roaming</value>
   </data>
   <data name="windows_enable_roaming_desc" xml:space="preserve">
-    <value>Allow Copied item to show accross devices</value>
+    <value>Enables copied items to sync across devices via Windows clipboard.</value>
   </data>
 </root>
